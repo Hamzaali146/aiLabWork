@@ -1,0 +1,18 @@
+% Testing the Adaline with bipolar activation function
+disp('Testing the network with bipolar activation:');
+
+for i = 1:size(X, 1)
+    % Step 4: Calculate net input
+    y_in = X(i, :) * w + bias;
+    
+    % Step 5: Apply bipolar activation function
+    if y_in >= 0
+        y = 1;
+    else
+        y = -1;
+    end
+    
+    % Display the input and the output
+    fprintf('Input: [%d %d], Net input: %.2f, Output: %d, Target: %d\n', ...
+        X(i, 1), X(i, 2), y_in, y, T(i));
+end

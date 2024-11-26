@@ -1,0 +1,53 @@
+% Truth table inputs and targets (bipolar)
+X = [-1 -1; -1 1; 1 -1; 1 1];  % Input matrix (4x2)
+T = [-1; 1; 1; 1];              % Target output
+
+% Parameters
+eta = 0.2;      % Learning rate
+epochs = 5;   % Number of iterations
+tolerance = 0.5;  % Tolerance for weight change convergence
+
+% Initialize weights and bias randomly
+w = [0.2;0.2];   % Weights (2x1 vector)
+bias = 0.2;    % Bias term
+
+% Training process
+for epoch = 1:epochs
+    error_sum = 0;  % Track the total error for this epoch
+    
+    for i = 1:size(X, 1)
+        % Compute the net input (y_in = w1*X1 + w2*X2 + bias)
+        y_in = X(i, :) * w + bias;
+        
+        % The Adaline uses the actual net input, no activation function
+        y = y_in;
+        
+        % Compute the error
+        error = T(i) - y;
+        
+        % Update the weights and bias using the delta rule
+        w = w + eta * error * X(i, :)';
+        bias = bias + eta * error;
+        
+        % Accumulate the squared error
+        error_sum = error_sum + error^2;
+    end
+    
+    % Check for convergence (when the error is below the tolerance)
+    if error_sum < tolerance
+        fprintf('Converged after %d epochs\n', epoch);
+        break;
+    end
+end
+
+% Display the final weights and bias
+disp('Final weights:');
+disp(w);
+disp('Final bias:');
+disp(bias);
+
+% Test the Adaline with the inputs
+for i = 1:size(X, 1)
+    y_in = X(i, :) * w + bias;
+    fprintf('Input: [%d %d], Output: %.2f, Target: %d\n', X(i, 1), X(i, 2), y_in, T(i));
+end
