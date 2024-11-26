@@ -1,0 +1,49 @@
+[System]
+Name='washing'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=2
+NumRules=5
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='status'
+Range=[0 10]
+NumMFs=2
+MF1='dirty':'gaussmf',[3 0]
+MF2='clean':'gaussmf',[3 7]
+
+[Input2]
+Name='materail'
+Range=[0 10]
+NumMFs=3
+MF1='soft':'gaussmf',[2 0]
+MF2='medium':'gaussmf',[2 5]
+MF3='hard':'gaussmf',[2 10]
+
+[Output1]
+Name='power'
+Range=[0 12]
+NumMFs=3
+MF1='low':'trapmf',[0 0 1.2 3.6]
+MF2='mediium':'trapmf',[2.4 4.8 6 8.4]
+MF3='high':'trapmf',[7.2 9.6 10.8 13.2]
+
+[Output2]
+Name='cycle_time'
+Range=[0 15]
+NumMFs=2
+MF1='less':'trapmf',[0 3.75 6.25 10]
+MF2='long':'trapmf',[8.75 11.25 13.75 16.25]
+
+[Rules]
+2 1, 1 1 (1) : 1
+1 1, 1 2 (1) : 1
+1 2, 2 2 (1) : 1
+2 3, 2 2 (1) : 1
+1 3, 3 2 (1) : 1
